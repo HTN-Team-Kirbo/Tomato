@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:firebase_core/firebase_core.dart';
+import 'flutterfire.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -164,6 +164,14 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
+            ),
+            MaterialButton(
+              onPressed: () async {
+                await signUp();
+              },
+              child: Text(
+                "Sign up boi",
+              ),
             ),
           ],
         ),
