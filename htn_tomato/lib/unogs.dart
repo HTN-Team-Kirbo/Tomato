@@ -1,11 +1,11 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-
+import 'config.dart' as config;
 
 class APIInfo {
   // API Key
-  static const apiKey = "10a15b6afbmshf1733b6167ff7c9p1cb823jsn0c6f059a8c00";
+  static const apiKey = config.apiKey;
 
   // Base API Url
   static const baseUrl = "unogsng.p.rapidapi.com";
