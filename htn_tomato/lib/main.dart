@@ -17,14 +17,17 @@ class MyApp extends StatelessWidget {
         future: _initialization,
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return ErrorPage();
+            return MaterialApp(
+              home: ErrorPage(title: "uwu, o no!"),
+            );
           }
-
           if (snapshot.connectionState == ConnectionState.done) {
-            return MyHomePage();
+            return MaterialApp(
+              home: MyHomePage(title: "titeltext"),
+            );
           }
 
-          return Loading();
+          return MaterialApp(home: Loading(title: "FLOADING :PP"));
         });
   }
 }
