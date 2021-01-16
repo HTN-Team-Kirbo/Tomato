@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "567075563587",
+    "project_id": "htn2021-tomato",
+    "storage_bucket": "htn2021-tomato.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:567075563587:android:b9302856b9767eeed80cf6",
+        "android_client_info": {
+          "package_name": "com.kirbo.htn_tomato"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "567075563587-nt7csd9mvnaita0av2foqjtrimsbnhdl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kirbo.htn_tomato",
+            "certificate_hash": "2ab36588dd95bdfbee4b3a9a674caaea49250e30"
+          }
+        },
+        {
+          "client_id": "567075563587-bvedk1e41fk9m13igt9sarf04lc8us8i.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrBGIx5Rz0J1VfYJ1zUTspH4Kx_4nnJ5U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "567075563587-bvedk1e41fk9m13igt9sarf04lc8us8i.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
