@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'flutterfire.dart';
 
+import 'package:http/http.dart' as http;
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
