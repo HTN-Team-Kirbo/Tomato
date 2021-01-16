@@ -3,31 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() {
-  WidgetsFlutterBinding.ensureInitialized()
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialization,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return ErrorPage();
-        }
+        future: _initialization,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return ErrorPage();
+          }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MyHomePage();
-        }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MyHomePage();
+          }
 
-        return Loading();
-      }
-    );
+          return Loading();
+        });
   }
 }
 
@@ -41,7 +39,6 @@ class ErrorPage extends StatefulWidget {
 }
 
 class _ErrorPageState extends State<ErrorPage> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +69,6 @@ class Loading extends StatefulWidget {
 }
 
 class _LoadingState extends State<Loading> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
