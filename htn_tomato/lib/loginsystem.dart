@@ -33,20 +33,35 @@ class LoginScreen extends StatelessWidget {
 }
 
 Widget SignUpDialog(BuildContext context) {
+  String email;
+  String username;
+  String password;
   return SimpleDialog(children: [
     Text("Create an account"),
     RoundedInputField(
       hintText: "Email",
       icon: Icons.email,
-      onChanged: (value) {},
+      onChanged: (value) {
+        email = value;
+      },
     ),
     RoundedInputField(
       hintText: "Username",
       icon: Icons.person,
-      onChanged: (value) {},
+      onChanged: (value) {
+        username = value;
+      },
     ),
     RoundedPasswordField(
-      onChanged: (value) {},
+      onChanged: (value) {
+        password = value;
+      },
+    ),
+    FlatButton(
+      child: Text("Create Account"),
+      onPressed: () {
+        //signUp(context, email, password);
+      },
     ),
   ]);
 }
@@ -61,6 +76,14 @@ Widget LoginDialog(BuildContext context) {
     ),
     RoundedPasswordField(
       onChanged: (value) {},
+    ),
+    FlatButton(
+      child: Text("Log In"),
+      onPressed: () {},
+    ),
+    FlatButton(
+      child: Text("Forgot Password?"),
+      onPressed: () {},
     ),
   ]);
 }
