@@ -25,7 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(50, 200, 0, 0),
+                  padding: EdgeInsets.fromLTRB(
+                      MediaQuery.of(context).size.width * 0.2,
+                      MediaQuery.of(context).size.width * 0.55,
+                      0,
+                      0),
                   child: Image.asset("assets/Saly-16.png"),
                 ),
                 FlatButton(
