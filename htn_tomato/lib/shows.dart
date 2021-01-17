@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:htn_tomato/cycles.dart';
 import 'pages.dart';
 
 APIService apiService = APIService();
@@ -50,7 +51,13 @@ class _ShowSetupState extends State<ShowSetupPage> {
     return TextButton(
         child: Image.network(show["img"]),
         onPressed: () {
-          print(show);
+          //
+          // <<< Save The Chosen Show in Firebase Here
+          //
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => CycleSetupPage()),
+          );
         });
   }
 
