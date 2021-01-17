@@ -16,15 +16,18 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressState extends State<ProgressPage> {
-  final workMinutes = 6;
-  final breakMinutes = 6;
+  int workMinutes = 6;
+  int breakMinutes = 6;
   final minute = const Duration(seconds: 1);
+  final ms = const Duration(milliseconds: 1);
 
-  int cyclesLeft = 1;
+  int cyclesLeft = 0;
   Timer timer;
+  Timer secondTick;
   Stopwatch stopwatch = Stopwatch();
   bool cycling = false;
   bool working = false;
+  String time = "00:00";
   double barLength = 0;
 
   void startCycles() async {
@@ -33,9 +36,14 @@ class _ProgressState extends State<ProgressPage> {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     int _maxCycles = (await users.doc(uid).get())["max_cycles"];
     setState(() {
-      cyclesLeft = _maxCycles;
+      cyclesLeft = (cyclesLeft == 0) ? _maxCycles : cyclesLeft;
       startWork();
       cycling = true;
+      secondTick = Timer.periodic(Duration(seconds: 1), (timer) {
+        setState(() {
+          time = timeDisplay();
+        });
+      });
     });
   }
 
@@ -50,11 +58,6 @@ class _ProgressState extends State<ProgressPage> {
         barLength = 300;
         cyclesLeft--;
       });
-    } else {
-      stopwatch.stop();
-      setState(() {
-        cycling = false;
-      });
     }
   }
 
@@ -66,13 +69,39 @@ class _ProgressState extends State<ProgressPage> {
           return breakDia;
         });
     var duration = minute * breakMinutes;
-    timer = new Timer(duration, startWork);
+    timer = new Timer(duration, stopCycle);
     stopwatch.reset();
     stopwatch.start();
     setState(() {
       working = false;
       barLength = 0;
     });
+  }
+
+  void stopCycle() {
+    stopwatch.stop();
+    secondTick.cancel();
+    setState(() {
+      cycling = false;
+    });
+  }
+
+  String timeDisplay() {
+    var timeLeft = minute * (working ? workMinutes : breakMinutes) -
+        ms * stopwatch.elapsedMilliseconds;
+
+    String hoursLeft = "0" + timeLeft.inHours.toString();
+    String hoursNeat = hoursLeft.substring(hoursLeft.length - 2);
+    String minutesLeft = "0" + timeLeft.inMinutes.toString();
+    String minutesNeat = minutesLeft.substring(minutesLeft.length - 2);
+    String secondsLeft = "0" + timeLeft.inSeconds.toString();
+    String secondsNeat = secondsLeft.substring(secondsLeft.length - 2);
+
+    if (timeLeft.inHours > 0) {
+      return hoursNeat + ":" + minutesNeat + ":" + secondsNeat;
+    } else {
+      return minutesNeat + ":" + secondsNeat;
+    }
   }
 
   @override
@@ -91,14 +120,14 @@ class _ProgressState extends State<ProgressPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                 Padding(
-                    padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                    padding: EdgeInsets.fromLTRB(40, 50, 40, 0),
                     child: Text(
                       "Progress",
                       textAlign: TextAlign.center,
                       style: localTheme.textTheme.headline2,
                     )),
                 Padding(
-                    padding: EdgeInsets.all(16.0),
+                    padding: EdgeInsets.fromLTRB(16.0, 16, 16, 0),
                     child: Visibility(
                         visible: !cycling,
                         child: ElevatedButton(
@@ -113,25 +142,34 @@ class _ProgressState extends State<ProgressPage> {
                             Text(working ? "Work Time!" : "Break Time!"))),
                 Image.asset("assets/Saly-10.png"),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.fromLTRB(16, 30, 16, 0),
                   child: AnimatedContainer(
-                      color: Colors.green,
+                      decoration: new BoxDecoration(
+                          color: Colors.green,
+                          borderRadius: new BorderRadius.circular(2)),
                       duration: minute * (working ? workMinutes : breakMinutes),
-                      height: 10,
+                      height: 30,
                       width: barLength),
                 ),
                 Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(
+                      time,
+                      textAlign: TextAlign.center,
+                      style: localTheme.textTheme.headline1,
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
                       "$cyclesLeft Cycles Left",
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.center,
                       style: localTheme.textTheme.bodyText2,
                     )),
                 Padding(
                     padding: EdgeInsets.all(16.0),
                     child: Text(
                       "Motivational Quote",
-                      textAlign: TextAlign.left,
+                      textAlign: TextAlign.center,
                       style: localTheme.textTheme.bodyText2,
                     )),
               ])),
