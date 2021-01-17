@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'flutterfire.dart';
+import 'loginsystem.dart';
 import 'unogs.dart';
 
 void main() {
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
               return Text("Error!");
             }
             if (snapshot.connectionState == ConnectionState.done) {
-              return MyHomePage(title: "titeltext");
+              return MyHomePage(title: "titeltext uwu");
             }
             return Center(
               child: CircularProgressIndicator(),
@@ -117,13 +118,14 @@ class _MyHomePageState extends State<MyHomePage> {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            MaterialButton(
-              onPressed: () async {
-                await signUp();
+            FlatButton(
+              child: Text("Start"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
               },
-              child: Text(
-                "Sign up boi",
-              ),
             ),
           ],
         ),

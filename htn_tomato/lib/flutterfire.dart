@@ -13,13 +13,12 @@ Future<void> checkAuth() async {
   }
 }
 
-Future<void> signUp() async {
+Future<void> signUp(email, password) async {
   await Firebase.initializeApp();
 
   try {
     UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(
-            email: "barry.allen@example.com", password: "SuperSecretPassword!");
+        .createUserWithEmailAndPassword(email: email, password: password);
     print("success!");
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
