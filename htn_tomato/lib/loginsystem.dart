@@ -1,9 +1,7 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'Components/components.dart';
 import 'flutterfire.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'pages.dart';
 
 class LoginScreen extends StatefulWidget {
   LoginScreen();
@@ -32,7 +30,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         }).then((exit) {
                       if (exit == null) return;
                       errorMessage = exit;
-                      // use an if statement here to go to next screen?
+                      if (exit == 'success!') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConfirmationPage()),
+                        );
+                      }
                     }),
                 child: Text("Sign Up")),
             FlatButton(
@@ -43,10 +47,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         }).then((exit) {
                       if (exit == null) return;
                       errorMessage = exit;
-                      //if statement to go to next screen?
+                      if (exit == 'success!') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ShowSetupPage()),
+                        );
+                      }
                     }),
                 child: Text("Log In")),
-            Text("$errorMessage"),
+            Text(" $errorMessage"),
           ],
         ),
       ),
@@ -58,34 +68,45 @@ Widget SignUpDialog(BuildContext context) {
   String email;
   String username;
   String password;
+  final node = FocusScope.of(context);
   return SimpleDialog(children: [
     Text("Create an account"),
-    RoundedInputField(
-      hintText: "Email",
-      icon: Icons.email,
+    TextField(
+      decoration: InputDecoration(
+        hintText: "Email",
+        icon: Icon(Icons.email),
+      ),
       onChanged: (value) {
         email = value;
       },
+      onEditingComplete: () => node.nextFocus(),
     ),
-    RoundedInputField(
-      hintText: "Username",
-      icon: Icons.person,
+    TextField(
+      decoration: InputDecoration(
+        hintText: "Username",
+        icon: Icon(Icons.person),
+      ),
       onChanged: (value) {
         username = value;
       },
+      onEditingComplete: () => node.nextFocus(),
     ),
-    RoundedPasswordField(
-      onChanged: (value) {
-        password = value;
-      },
-    ),
+    TextField(
+        obscureText: true,
+        decoration:
+            InputDecoration(hintText: "Password", icon: Icon(Icons.lock)),
+        onChanged: (value) {
+          password = value;
+        },
+        onSubmitted: (value) async {
+          String _signupResult = await signUp(email, username, value);
+          node.unfocus();
+          Navigator.pop(context, _signupResult);
+        }),
     FlatButton(
       child: Text("Create Account"),
       onPressed: () async {
         String _signupResult = await signUp(email, username, password);
-        if (_signupResult == "success!") {
-          //Next Screen
-        }
         Navigator.pop(context, _signupResult);
       },
     ),
@@ -95,27 +116,39 @@ Widget SignUpDialog(BuildContext context) {
 Widget LoginDialog(BuildContext context) {
   String email;
   String password;
+
+  final node = FocusScope.of(context);
   return SimpleDialog(children: [
     Text("Log in to your account"),
-    RoundedInputField(
-      hintText: "Email",
-      icon: Icons.email,
+    TextField(
+      decoration: InputDecoration(
+        hintText: "Email",
+        icon: Icon(Icons.email),
+      ),
       onChanged: (value) {
         email = value;
       },
+      onEditingComplete: () => node.nextFocus(),
     ),
-    RoundedPasswordField(
-      onChanged: (value) {
-        password = value;
-      },
-    ),
+    TextField(
+        obscureText: true,
+        decoration: InputDecoration(
+          hintText: "Password",
+          icon: Icon(Icons.lock),
+        ),
+        onChanged: (value) {
+          password = value;
+        },
+        onSubmitted: (value) async {
+          String _loginResult = await login(email, value);
+          node.unfocus();
+          print(_loginResult);
+          Navigator.pop(context, _loginResult);
+        }),
     FlatButton(
       child: Text("Log In"),
       onPressed: () async {
         String _loginResult = await login(email, password);
-        if (_loginResult == "success!") {
-          //Next Screen
-        }
         Navigator.pop(context, _loginResult);
       },
     ),

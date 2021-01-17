@@ -61,6 +61,17 @@ Future<String> login(String email, String password) async {
   }
 }
 
+Future<void> logout() async {
+  await Firebase.initializeApp();
+
+  try {
+    await FirebaseAuth.instance.signOut();
+    print("signed out!");
+  } on FirebaseAuthException catch (e) {
+    print("error signing out!");
+  }
+}
+
 Future<bool> verifyEmail() async {
   await Firebase.initializeApp();
   User user = FirebaseAuth.instance.currentUser;
