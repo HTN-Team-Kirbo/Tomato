@@ -30,23 +30,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         builder: (context) {
                           return SignUpDialog(context);
                         }).then((exit) {
-                      print(exit);
                       if (exit == null) return;
-                      if (exit == "success!") {
-                        setState(() {
-                          errorMessage = exit;
-                        });
-                      } else {
-                        setState(() {
-                          errorMessage = exit;
-                        });
-                      }
+                      errorMessage = exit;
+                      // use an if statement here to go to next screen?
                     }),
                 child: Text("Sign Up")),
             FlatButton(
                 onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => LoginDialog(context)),
+                        context: context,
+                        builder: (context) {
+                          return LoginDialog(context);
+                        }).then((exit) {
+                      if (exit == null) return;
+                      errorMessage = exit;
+                      //if statement to go to next screen?
+                    }),
                 child: Text("Log In")),
             Text("$errorMessage"),
           ],
@@ -84,7 +82,7 @@ Widget SignUpDialog(BuildContext context) {
     FlatButton(
       child: Text("Create Account"),
       onPressed: () async {
-        String _signupResult = await signUp(email, password);
+        String _signupResult = await signUp(email, username, password);
         if (_signupResult == "success!") {
           //Next Screen
         }
@@ -95,57 +93,35 @@ Widget SignUpDialog(BuildContext context) {
 }
 
 Widget LoginDialog(BuildContext context) {
+  String email;
+  String password;
   return SimpleDialog(children: [
     Text("Log in to your account"),
     RoundedInputField(
       hintText: "Email",
       icon: Icons.email,
-      onChanged: (value) {},
+      onChanged: (value) {
+        email = value;
+      },
     ),
     RoundedPasswordField(
-      onChanged: (value) {},
+      onChanged: (value) {
+        password = value;
+      },
     ),
     FlatButton(
       child: Text("Log In"),
-      onPressed: () {},
+      onPressed: () async {
+        String _loginResult = await login(email, password);
+        if (_loginResult == "success!") {
+          //Next Screen
+        }
+        Navigator.pop(context, _loginResult);
+      },
     ),
     FlatButton(
       child: Text("Forgot Password?"),
       onPressed: () {},
     ),
   ]);
-}
-
-class AddUser extends StatelessWidget {
-  final String username;
-  final String email;
-  final String password;
-
-  AddUser(this.username, this.email, this.password);
-
-  @override
-  Widget build(BuildContext context) {
-    // Create a CollectionReference called users that references the firestore collection
-    CollectionReference users = FirebaseFirestore.instance.collection('users');
-
-    Future<void> addUser() {
-      // Call the user's CollectionReference to add a new user
-      return users
-          .add({
-            'username': username, // John Doe
-            'friends': [],
-            'total_cycles': 0,
-            'coins': 0,
-          })
-          .then((value) => print("User Added"))
-          .catchError((error) => print("Failed to add user: $error"));
-    }
-
-    TextButton(
-      onPressed: addUser,
-      child: Text(
-        "Add User",
-      ),
-    );
-  }
 }

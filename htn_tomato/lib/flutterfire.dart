@@ -13,7 +13,7 @@ Future<void> checkAuth() async {
   }
 }
 
-Future<String> signUp(String email, String password) async {
+Future<String> signUp(String email, String username, String password) async {
   await Firebase.initializeApp();
 
   try {
@@ -21,18 +21,26 @@ Future<String> signUp(String email, String password) async {
     //print(password);
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
-    print("success!");
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    users
+        .add({
+          'username': username, // John Doe
+          'friends': [],
+          'total_cycles': 0,
+          'coins': 0,
+        })
+        .then((value) => print("User Added"))
+        .catchError((error) => print("Failed to add user: $error"));
     return "success!";
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
       return 'The password provided is too weak.';
     } else if (e.code == 'email-already-in-use') {
       return 'The account already exists for that email.';
+    } else {
+      return 'An unknown error has occurred.';
     }
-  } catch (e) {
-    return e.code;
   }
-  return 'An unknown error has occurred.';
 }
 
 Future<String> login(String email, String password) async {
@@ -43,13 +51,12 @@ Future<String> login(String email, String password) async {
         .signInWithEmailAndPassword(email: email, password: password);
     return "success!";
   } on FirebaseAuthException catch (e) {
-    if (e.code == 'weak-password') {
-      return 'The password provided is too weak.';
-    } else if (e.code == 'email-already-in-use') {
-      return 'The account already exists for that email.';
+    if (e.code == 'user-not-found') {
+      return 'No user found for that email.';
+    } else if (e.code == 'wrong-password') {
+      return 'Wrong password provided for this account.';
+    } else {
+      return 'An unknown error has occurred.';
     }
-  } catch (e) {
-    return e.message;
   }
-  return 'An unknown error has occurred.';
 }
