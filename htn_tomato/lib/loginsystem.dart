@@ -105,6 +105,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   style:
                       localTheme.textTheme.headline1.apply(fontSizeFactor: 1.5),
                 )),
+            Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  "にじゅうご",
+                  textAlign: TextAlign.left,
+                  style:
+                      localTheme.textTheme.headline1.apply(fontSizeFactor: 0.8),
+                )),
           ],
         ),
       ]),
