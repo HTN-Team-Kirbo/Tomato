@@ -34,8 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ConfirmationPage()
-                          ),
+                              builder: (context) => ConfirmationPage()),
                         );
                       }
                     }),
@@ -52,8 +51,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ConfirmationPage()
-                          ),
+                              builder: (context) => ConfirmationPage()),
                         );
                       }
                     }),
@@ -72,7 +70,7 @@ Widget SignUpDialog(BuildContext context) {
   String password;
   final node = FocusScope.of(context);
   return SimpleDialog(children: [
-    Text("Create an account"),
+    Center(child: Text("Create an account")),
     TextField(
       decoration: InputDecoration(
         hintText: "Email",
@@ -121,7 +119,7 @@ Widget LoginDialog(BuildContext context) {
 
   final node = FocusScope.of(context);
   return SimpleDialog(children: [
-    Text("Log in to your account"),
+    Center(child: Text("Log in to your account")),
     TextField(
       decoration: InputDecoration(
         hintText: "Email",

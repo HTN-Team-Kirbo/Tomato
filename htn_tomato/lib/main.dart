@@ -17,6 +17,20 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        colorScheme: ColorScheme(
+            primary: Colors.blue,
+            primaryVariant: Colors.blue,
+            secondary: Colors.blue,
+            secondaryVariant: Colors.blue,
+            surface: Colors.blue,
+            background: Colors.blue,
+            error: Colors.blue,
+            onPrimary: Colors.blue,
+            onSecondary: Colors.blue,
+            onSurface: Colors.blue,
+            onBackground: Colors.blue,
+            onError: Colors.blue,
+            brightness: Brightness.dark),
         fontFamily: 'Roboto',
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
