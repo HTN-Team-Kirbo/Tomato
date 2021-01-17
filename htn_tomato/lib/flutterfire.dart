@@ -21,9 +21,11 @@ Future<String> signUp(String email, String username, String password) async {
     //print(password);
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+    String uid = FirebaseAuth.instance.currentUser.uid;
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     users
-        .add({
+        .doc(uid)
+        .set({
           'username': username, // John Doe
           'friends': [],
           'total_cycles': 0,

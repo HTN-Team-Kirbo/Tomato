@@ -3,6 +3,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'config.dart' as config;
 
+//Important: Needs a config.dart with a valid UnogsNG API key to work
+
 class APIService {
   // API Key
   static const apiKey = config.apiKey;

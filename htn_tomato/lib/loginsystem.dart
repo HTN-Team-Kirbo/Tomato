@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => ConfirmationPage()),
+                                  builder: (context) => ProgressPage()),
                             );
                           }
                         }),

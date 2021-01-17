@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:htn_tomato/cycles.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'pages.dart';
 
 APIService apiService = APIService();
@@ -50,10 +53,13 @@ class _ShowSetupState extends State<ShowSetupPage> {
     var show = shows[index];
     return TextButton(
         child: Image.network(show["img"]),
-        onPressed: () {
-          //
-          // <<< Save The Chosen Show in Firebase Here
-          //
+        onPressed: () async {
+
+          await Firebase.initializeApp();
+          String uid = FirebaseAuth.instance.currentUser.uid;
+          CollectionReference users = FirebaseFirestore.instance.collection('users');
+          users.doc(uid).update({"show": show});
+
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => CycleSetupPage()),
