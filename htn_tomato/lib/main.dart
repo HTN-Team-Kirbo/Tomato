@@ -17,9 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-
         fontFamily: 'Roboto',
-
         textTheme: TextTheme(
           headline1: TextStyle(fontSize: 40.0, fontWeight: FontWeight.bold),
           headline2: TextStyle(fontSize: 24.0, fontWeight: FontWeight.bold),
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
           bodyText2: TextStyle(fontSize: 14.0, fontFamily: 'Hind'),
         ),
       ),
-
       home: FutureBuilder(
           future: _initialization,
           builder: (context, snapshot) {
@@ -35,7 +32,7 @@ class MyApp extends StatelessWidget {
               return Text("Error!");
             }
             if (snapshot.connectionState == ConnectionState.done) {
-              return MyHomePage(title: "titeltext uwu");
+              return MyHomePage();
             }
             return Center(
               child: CircularProgressIndicator(),
@@ -46,7 +43,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -56,8 +53,6 @@ class MyHomePage extends StatefulWidget {
   // case the title) provided by the parent (in this case the App widget) and
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
-
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
