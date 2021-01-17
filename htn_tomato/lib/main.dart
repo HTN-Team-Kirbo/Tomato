@@ -8,8 +8,6 @@ void main() async {
   runApp(MyApp());
 }
 
-APIService apiService = APIService();
-
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -71,32 +69,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  TextEditingController _controller;
-
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  List<dynamic> shows = [];
-
-  void _searchShowTitle(String title) async {
-    var foundShows = (await apiService.get(
-        endpoint: '/search', query: {"limit": "8", "query": title}))["results"];
-    setState(() {
-      shows = foundShows;
-    });
-  }
-
-  Widget _listItemBuilder(BuildContext context, int index) {
-    return Text(shows[index]["title"]);
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -147,19 +119,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-            TextField(
-                controller: _controller,
-                onSubmitted: (String title) async {
-                  _searchShowTitle(title);
-                }),
-            Expanded(
-              child: ListView.builder(
-                itemCount: shows.length,
-                itemExtent: 60.0,
-                itemBuilder: _listItemBuilder,
-                shrinkWrap: true,
-              ),
-            )
           ],
         ),
       ),
