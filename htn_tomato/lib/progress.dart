@@ -16,8 +16,8 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressState extends State<ProgressPage> {
-  final workDuration = 6;
-  final breakDuration = 6;
+  final workMinutes = 6;
+  final breakMinutes = 6;
   final minute = const Duration(seconds: 1);
 
   int cyclesLeft = 4;
@@ -25,9 +25,9 @@ class _ProgressState extends State<ProgressPage> {
   Stopwatch stopwatch = Stopwatch();
   bool cycling = false;
   bool working = false;
+  double barLength = 0;
 
   void startCycles() {
-    print("starting cycles");
     setState(() {
       startWork();
       cycling = true;
@@ -35,14 +35,14 @@ class _ProgressState extends State<ProgressPage> {
   }
 
   void startWork() {
-    print("starting work");
-    var duration = minute * workDuration;
+    var duration = minute * workMinutes;
     if (cyclesLeft > 0) {
       timer = new Timer(duration, startBreak);
       stopwatch.reset();
       stopwatch.start();
       setState(() {
         working = true;
+        barLength = 300;
         cyclesLeft--;
       });
     } else {
@@ -53,14 +53,20 @@ class _ProgressState extends State<ProgressPage> {
     }
   }
 
-  void startBreak() {
-    print("starting break");
-    var duration = minute * breakDuration;
+  void startBreak() async {
+    Widget breakDia = await breakDialog(context);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return breakDia;
+        });
+    var duration = minute * breakMinutes;
     timer = new Timer(duration, startWork);
     stopwatch.reset();
     stopwatch.start();
     setState(() {
       working = false;
+      barLength = 0;
     });
   }
 
@@ -94,6 +100,14 @@ class _ProgressState extends State<ProgressPage> {
                   ),
                   replacement: Text(working ? "Work Time!" : "Break Time!"))),
           Padding(
+            padding: EdgeInsets.all(16.0),
+            child: AnimatedContainer(
+                color: Colors.green,
+                duration: minute * (working ? workMinutes : breakMinutes),
+                height: 10,
+                width: barLength),
+          ),
+          Padding(
               padding: EdgeInsets.all(16.0),
               child: Text(
                 "$cyclesLeft Cycles Left",
@@ -107,28 +121,6 @@ class _ProgressState extends State<ProgressPage> {
                 textAlign: TextAlign.left,
                 style: localTheme.textTheme.bodyText2,
               )),
-          Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Visibility(
-                  child: ElevatedButton(
-                      child: Text("Congratulations! You've earned a break!",
-                          textAlign: TextAlign.center,
-                          style: localTheme.textTheme.bodyText2),
-                      onPressed: () async {
-                        await Firebase.initializeApp();
-                        String uid = FirebaseAuth.instance.currentUser.uid;
-                        CollectionReference users =
-                            FirebaseFirestore.instance.collection('users');
-                        int nfid = (await users.doc(uid).get())["show"]["nfid"];
-                        print(nfid);
-
-                        String url = 'https://www.netflix.com/watch/$nfid';
-                        if (await canLaunch(url)) {
-                          await launch(url);
-                        } else {
-                          throw 'Could not launch $url';
-                        }
-                      })))
         ])),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
@@ -140,4 +132,39 @@ class _ProgressState extends State<ProgressPage> {
           child: Icon(Icons.arrow_forward),
         ));
   }
+}
+
+Future<Widget> breakDialog(BuildContext context) async {
+  await Firebase.initializeApp();
+  String uid = FirebaseAuth.instance.currentUser.uid;
+  CollectionReference users = FirebaseFirestore.instance.collection('users');
+  var show = (await users.doc(uid).get())["show"];
+  String title = show["title"];
+  int nfid = show["nfid"];
+
+  final node = FocusScope.of(context);
+  return SimpleDialog(
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+    children: [
+      Center(
+          child: Text(
+        "Congratulations! You've earned a break!",
+        style: Theme.of(context).textTheme.bodyText2,
+      )),
+      ElevatedButton(
+          child: Text(
+            "Open $title on Netflix",
+            style: Theme.of(context).textTheme.bodyText2,
+          ),
+          onPressed: () async {
+            String url = 'https://www.netflix.com/watch/$nfid';
+            if (await canLaunch(url)) {
+              await launch(url);
+              node.unfocus();
+            } else {
+              throw 'Could not launch $url';
+            }
+          })
+    ],
+  );
 }
