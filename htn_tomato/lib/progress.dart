@@ -20,15 +20,20 @@ class _ProgressState extends State<ProgressPage> {
   final breakMinutes = 6;
   final minute = const Duration(seconds: 1);
 
-  int cyclesLeft = 4;
+  int cyclesLeft = 1;
   Timer timer;
   Stopwatch stopwatch = Stopwatch();
   bool cycling = false;
   bool working = false;
   double barLength = 0;
 
-  void startCycles() {
+  void startCycles() async {
+    await Firebase.initializeApp();
+    String uid = FirebaseAuth.instance.currentUser.uid;
+    CollectionReference users = FirebaseFirestore.instance.collection('users');
+    int _maxCycles = (await users.doc(uid).get())["max_cycles"];
     setState(() {
+      cyclesLeft = _maxCycles;
       startWork();
       cycling = true;
     });
@@ -147,6 +152,11 @@ Future<Widget> breakDialog(BuildContext context) async {
   await Firebase.initializeApp();
   String uid = FirebaseAuth.instance.currentUser.uid;
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  try {
+    var show = (await users.doc(uid).get())["show"];
+  } catch (e) {
+    return ShowSetupPage();
+  }
   var show = (await users.doc(uid).get())["show"];
   String title = show["title"];
   int nfid = show["nfid"];

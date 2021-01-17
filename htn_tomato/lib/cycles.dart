@@ -99,7 +99,7 @@ class _CycleSetupPageState extends State<CycleSetupPage> {
             String uid = FirebaseAuth.instance.currentUser.uid;
             CollectionReference users =
                 FirebaseFirestore.instance.collection('users');
-            users.doc(uid).update({"max_cycles": currentSliderValue});
+            users.doc(uid).update({"max_cycles": currentSliderValue.toInt()});
             Navigator.push(
               context,
               MaterialPageRoute(builder: (context) => ProgressPage()),
