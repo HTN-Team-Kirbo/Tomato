@@ -33,7 +33,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => ConfirmationPage()),
+                              builder: (context) => ConfirmationPage()
+                          ),
                         );
                       }
                     }),
@@ -49,7 +50,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (exit == 'success!') {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => MyHomePage()),
+                          MaterialPageRoute(
+                              builder: (context) => ConfirmationPage()
+                          ),
                         );
                       }
                     }),
