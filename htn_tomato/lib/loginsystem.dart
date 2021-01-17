@@ -101,7 +101,7 @@ class AddUser extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     Future<void> addUser() {
-      signUp(email, password);
+      //signUp(email, password);
       // Call the user's CollectionReference to add a new user
       return users
           .add({
