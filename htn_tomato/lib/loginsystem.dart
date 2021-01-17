@@ -34,7 +34,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: EdgeInsets.fromLTRB(
                     MediaQuery.of(context).size.width * 0.2,
-                    MediaQuery.of(context).size.width * 0.6,
+                    MediaQuery.of(context).size.height * 0.23,
                     0,
                     0),
                 child: Image.asset("assets/Saly-16.png"),
