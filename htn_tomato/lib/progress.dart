@@ -74,7 +74,7 @@ class _ProgressState extends State<ProgressPage> {
                 Column(mainAxisAlignment: MainAxisAlignment.center, children: <
                     Widget>[
           Padding(
-              padding: EdgeInsets.fromLTRB(10, 0, 40, 0),
+              padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: Text(
                 "Progress",
                 textAlign: TextAlign.center,
