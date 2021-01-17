@@ -43,12 +43,14 @@ class _ShowSetupState extends State<ShowSetupPage> {
   Widget _gridItemBuilder(BuildContext context, int index) {
     var show = shows[index];
     return TextButton(
-        child: Image.network(show["img"]),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(15),
+            child: Image.network(show["img"])),
         onPressed: () async {
-
           await Firebase.initializeApp();
           String uid = FirebaseAuth.instance.currentUser.uid;
-          CollectionReference users = FirebaseFirestore.instance.collection('users');
+          CollectionReference users =
+              FirebaseFirestore.instance.collection('users');
           users.doc(uid).update({"show": show});
 
           Navigator.push(
@@ -68,35 +70,49 @@ class _ShowSetupState extends State<ShowSetupPage> {
     // than having to individually change instances of widgets.
     return Scaffold(
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Padding(
-              padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
-              child: Text(
-                'Search for a Netflix show to watch',
-              )
+        child: Stack(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment(0.4, -1),
+                      end: Alignment(-0.4, 1),
+                      colors: [Color(0xFF1D1D42), Color(0xFF7A77F4)])),
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
-              child: TextField(
-                  controller: _controller,
-                  onSubmitted: (String title) async {
-                    _searchShowTitle(title);
-                  }),
-            ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: shows.length,
-                itemBuilder: _gridItemBuilder,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  childAspectRatio: 166 / 233,
-                  crossAxisCount: 3,
-                  crossAxisSpacing: 0,
+            Container(
+                alignment: Alignment(0, 1),
+                child: Transform.scale(
+                    scale: 1.5, child: Image.asset("assets/Saly-17.png"))),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+                    child: Text(
+                      'Search for a Netflix show to watch',
+                    )),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  child: TextField(
+                      controller: _controller,
+                      onSubmitted: (String title) async {
+                        _searchShowTitle(title);
+                      }),
                 ),
-                shrinkWrap: true,
-              ),
-            )
+                Expanded(
+                  child: GridView.builder(
+                    itemCount: shows.length,
+                    itemBuilder: _gridItemBuilder,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 166 / 233,
+                      crossAxisCount: 3,
+                      crossAxisSpacing: 0,
+                    ),
+                    shrinkWrap: true,
+                  ),
+                )
+              ],
+            ),
           ],
         ),
       ),
