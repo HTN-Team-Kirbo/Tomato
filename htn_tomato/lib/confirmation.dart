@@ -9,22 +9,30 @@ class ConfirmationPage extends StatelessWidget {
 
     return Scaffold(
         body: Center(
-            child: Column(children: <Widget>[
-          Text(
-            "Check your inbox for a confirmation email!",
-            style: localTheme.textTheme.headline1,
-          ),
-          Text(
-            "Let's start setting your goals.",
-            style: localTheme.textTheme.bodyText2,
-          ),
-          FlatButton(
-            onPressed: () async {
-              verifyEmail();
-            },
-            child: Text("Resend Verification Email"),
-          )
-        ])),
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+              Padding(
+                  padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
+                  child: Text(
+                    "Check your inbox for a confirmation email!",
+                    textAlign: TextAlign.center,
+                    style: localTheme.textTheme.headline2,
+                  )),
+              Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "Let's start setting your goals.",
+                    textAlign: TextAlign.center,
+                    style: localTheme.textTheme.bodyText2,
+                  )),
+              FlatButton(
+                onPressed: () async {
+                  verifyEmail();
+                },
+                child: Text("Resend Verification Email"),
+              )
+            ])),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
             bool verified = await emailVerified();
