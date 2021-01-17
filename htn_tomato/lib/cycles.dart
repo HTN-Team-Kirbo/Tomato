@@ -38,7 +38,7 @@ class CycleSetupPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ShowSetupPage()),
+              MaterialPageRoute(builder: (context) => ProgressPage()),
             );
           },
           child: Icon(Icons.arrow_forward),
