@@ -5,10 +5,6 @@ import 'pages.dart';
 import 'dart:async' show Future;
 import 'package:flutter/services.dart' show rootBundle;
 
-Future<String> loadAsset() async {
-  return await rootBundle.loadString('assets/config.json');
-}
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
@@ -30,7 +26,7 @@ class MyApp extends StatelessWidget {
             secondary: Colors.blue,
             secondaryVariant: Colors.blue,
             surface: Colors.blue,
-            background: Colors.blue,
+            background: Color(0xFF1D1D42),
             error: Colors.blue,
             onPrimary: Colors.blue,
             onSecondary: Colors.blue,
@@ -96,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
       child: Scaffold(
+        backgroundColor: Color(0xFF1D1D42),
         body: Center(
           // Center is a layout widget. It takes a single child and positions it
           // in the middle of the parent.
