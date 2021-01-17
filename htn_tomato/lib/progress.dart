@@ -16,9 +16,9 @@ class ProgressPage extends StatefulWidget {
 }
 
 class _ProgressState extends State<ProgressPage> {
-  int workMinutes = 6;
-  int breakMinutes = 6;
-  final minute = const Duration(seconds: 1);
+  int workMinutes = 1;
+  int breakMinutes = 1;
+  final minute = const Duration(minutes: 1);
   final ms = const Duration(milliseconds: 1);
 
   int cyclesLeft = 0;
@@ -146,7 +146,7 @@ class _ProgressState extends State<ProgressPage> {
                   child: AnimatedContainer(
                       decoration: new BoxDecoration(
                           color: Colors.green,
-                          borderRadius: new BorderRadius.circular(2)),
+                          borderRadius: new BorderRadius.circular(5)),
                       duration: minute * (working ? workMinutes : breakMinutes),
                       height: 30,
                       width: barLength),
