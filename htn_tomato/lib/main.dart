@@ -2,6 +2,12 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'pages.dart';
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
+
+Future<String> loadAsset() async {
+  return await rootBundle.loadString('assets/config.json');
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -110,6 +116,7 @@ class _MyHomePageState extends State<MyHomePage> {
               // horizontal).
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Image.asset('assets/Background.png'),
                 Text("Tap anywhere"),
               ]),
         ),
