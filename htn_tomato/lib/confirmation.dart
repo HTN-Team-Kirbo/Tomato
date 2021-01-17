@@ -51,7 +51,7 @@ class ConfirmationPage extends StatelessWidget {
             if (verified) {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CycleSetupPage()),
+                MaterialPageRoute(builder: (context) => ShowSetupPage()),
               );
             }
           },
