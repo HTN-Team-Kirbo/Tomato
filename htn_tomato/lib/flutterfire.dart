@@ -60,3 +60,21 @@ Future<String> login(String email, String password) async {
     }
   }
 }
+
+Future<bool> verifyEmail() async {
+  await Firebase.initializeApp();
+  User user = FirebaseAuth.instance.currentUser;
+
+  if (user.emailVerified) {
+    return true;
+  } else {
+    await user.sendEmailVerification();
+    return false;
+  }
+}
+
+Future<void> passwordReset(String email) async {
+  await Firebase.initializeApp();
+
+  await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+}

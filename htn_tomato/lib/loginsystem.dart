@@ -120,8 +120,10 @@ Widget LoginDialog(BuildContext context) {
       },
     ),
     FlatButton(
-      child: Text("Forgot Password?"),
-      onPressed: () {},
+      child: Text("Forgot Password? (Enter email first)"),
+      onPressed: () {
+        passwordReset(email);
+      },
     ),
   ]);
 }
