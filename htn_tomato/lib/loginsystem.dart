@@ -1,4 +1,3 @@
-import 'Components/components.dart';
 import 'flutterfire.dart';
 import 'package:flutter/material.dart';
 import 'pages.dart';
@@ -50,8 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (exit == 'success!') {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => ShowSetupPage()),
+                          MaterialPageRoute(builder: (context) => MyHomePage()),
                         );
                       }
                     }),
@@ -142,7 +140,6 @@ Widget LoginDialog(BuildContext context) {
         onSubmitted: (value) async {
           String _loginResult = await login(email, value);
           node.unfocus();
-          print(_loginResult);
           Navigator.pop(context, _loginResult);
         }),
     FlatButton(
