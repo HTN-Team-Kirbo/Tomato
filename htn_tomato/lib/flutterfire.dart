@@ -72,16 +72,22 @@ Future<void> logout() async {
   }
 }
 
-Future<bool> verifyEmail() async {
+Future<void> verifyEmail() async {
+  // for if you want to send verification email
   await Firebase.initializeApp();
   User user = FirebaseAuth.instance.currentUser;
-
-  if (user.emailVerified) {
-    return true;
-  } else {
+  user.reload();
+  if (!user.emailVerified) {
     await user.sendEmailVerification();
-    return false;
   }
+}
+
+Future<bool> emailVerified() async {
+  //to check whether you are verified.
+  await Firebase.initializeApp();
+  User user = FirebaseAuth.instance.currentUser;
+  user.reload();
+  return user.emailVerified;
 }
 
 Future<void> passwordReset(String email) async {

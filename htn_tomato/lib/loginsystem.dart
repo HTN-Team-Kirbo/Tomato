@@ -30,6 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       if (exit == null) return;
                       errorMessage = exit;
                       if (exit == 'success!') {
+                        verifyEmail();
                         Navigator.push(
                           context,
                           MaterialPageRoute(
