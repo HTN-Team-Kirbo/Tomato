@@ -5,7 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  LoginScreen();
+
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String errorMessage = "";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,14 +26,29 @@ class LoginScreen extends StatelessWidget {
           children: <Widget>[
             FlatButton(
                 onPressed: () => showDialog(
-                    context: context,
-                    builder: (context) => SignUpDialog(context)),
+                        context: context,
+                        builder: (context) {
+                          return SignUpDialog(context);
+                        }).then((exit) {
+                      print(exit);
+                      if (exit == null) return;
+                      if (exit == "success!") {
+                        setState(() {
+                          errorMessage = exit;
+                        });
+                      } else {
+                        setState(() {
+                          errorMessage = exit;
+                        });
+                      }
+                    }),
                 child: Text("Sign Up")),
             FlatButton(
                 onPressed: () => showDialog(
                     context: context,
                     builder: (context) => LoginDialog(context)),
                 child: Text("Log In")),
+            Text("$errorMessage"),
           ],
         ),
       ),
@@ -60,8 +84,11 @@ Widget SignUpDialog(BuildContext context) {
     FlatButton(
       child: Text("Create Account"),
       onPressed: () async {
-        String signupResult = await signUp(email, password);
-        if (signupResult == "success!") {}
+        String _signupResult = await signUp(email, password);
+        if (_signupResult == "success!") {
+          //Next Screen
+        }
+        Navigator.pop(context, _signupResult);
       },
     ),
   ]);

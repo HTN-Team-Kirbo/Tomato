@@ -17,8 +17,11 @@ Future<String> signUp(String email, String password) async {
   await Firebase.initializeApp();
 
   try {
+    //print(email);
+    //print(password);
     await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+    print("success!");
     return "success!";
   } on FirebaseAuthException catch (e) {
     if (e.code == 'weak-password') {
@@ -27,7 +30,7 @@ Future<String> signUp(String email, String password) async {
       return 'The account already exists for that email.';
     }
   } catch (e) {
-    return e.message;
+    return e.code;
   }
   return 'An unknown error has occurred.';
 }
