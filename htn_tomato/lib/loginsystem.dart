@@ -87,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }),
                 child: Text("Log In", textScaleFactor: 1.5)),
             Text(" $errorMessage"),
+            SizedBox(height: 50)
           ],
         ),
         Column(
@@ -108,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       localTheme.textTheme.headline1.apply(fontSizeFactor: 1.5),
                 )),
             Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "にじゅうご",
                   textAlign: TextAlign.left,
