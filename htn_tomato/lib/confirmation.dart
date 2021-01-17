@@ -25,7 +25,7 @@ class ConfirmationPage extends StatelessWidget {
           onPressed: () {
             Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => LoginScreen()),
+            MaterialPageRoute(builder: (context) => ShowSetupPage()),
             );
           },
           child: Icon(Icons.arrow_forward),
