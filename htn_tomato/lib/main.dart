@@ -8,8 +8,6 @@ void main() async {
   runApp(MyApp());
 }
 
-APIService apiService = APIService();
-
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
@@ -56,45 +54,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
-  TextEditingController _controller;
-
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  List<dynamic> shows = [];
-
-  void _searchShowTitle(String title) async {
-    var foundShows = (await apiService.get(
-        endpoint: '/search', query: {"limit": "8", "query": title}))["results"];
-    setState(() {
-      shows = foundShows;
-    });
-  }
-
-  Widget _listItemBuilder(BuildContext context, int index) {
-    return Text(shows[index]["title"]);
-  }
-
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -129,13 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
             FlatButton(
               child: Text("Start"),
               onPressed: () {
@@ -145,27 +97,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             ),
-            TextField(
-                controller: _controller,
-                onSubmitted: (String title) async {
-                  _searchShowTitle(title);
-                }),
-            Expanded(
-              child: ListView.builder(
-                itemCount: shows.length,
-                itemExtent: 60.0,
-                itemBuilder: _listItemBuilder,
-                shrinkWrap: true,
-              ),
-            )
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
