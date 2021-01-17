@@ -30,13 +30,15 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
         Column(
           children: [
-            Padding(
-              padding: EdgeInsets.fromLTRB(
-                  MediaQuery.of(context).size.width * 0.2,
-                  MediaQuery.of(context).size.width * 0.6,
-                  0,
-                  0),
-              child: Image.asset("assets/Saly-16.png"),
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.fromLTRB(
+                    MediaQuery.of(context).size.width * 0.2,
+                    MediaQuery.of(context).size.width * 0.6,
+                    0,
+                    0),
+                child: Image.asset("assets/Saly-16.png"),
+              ),
             ),
             FlatButton(
                 padding: EdgeInsets.all(15),
@@ -85,6 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     }),
                 child: Text("Log In", textScaleFactor: 1.5)),
             Text(" $errorMessage"),
+            SizedBox(height: 50)
           ],
         ),
         Column(
@@ -106,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       localTheme.textTheme.headline1.apply(fontSizeFactor: 1.5),
                 )),
             Padding(
-                padding: EdgeInsets.all(16.0),
+                padding: EdgeInsets.all(8.0),
                 child: Text(
                   "にじゅうご",
                   textAlign: TextAlign.left,
