@@ -38,14 +38,20 @@ class _ShowSetupState extends State<ShowSetupPage> {
 
   void _searchShowTitle(String title) async {
     var foundShows = (await apiService.get(
-        endpoint: '/search', query: {"limit": "8", "query": title}))["results"];
+        endpoint: '/search',
+        query: {"type": "series", "limit": "9", "query": title}))["results"];
     setState(() {
       shows = foundShows;
     });
   }
 
-  Widget _listItemBuilder(BuildContext context, int index) {
-    return Text(shows[index]["title"]);
+  Widget _gridItemBuilder(BuildContext context, int index) {
+    var show = shows[index];
+    return TextButton(
+        child: Image.network(show["img"]),
+        onPressed: () {
+          print(show);
+        });
   }
 
   @override
@@ -57,20 +63,18 @@ class _ShowSetupState extends State<ShowSetupPage> {
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text(
-              'Search for a Netflix show to watch"',
+            Padding(
+              padding: EdgeInsets.fromLTRB(0, 80, 0, 0),
+              child: Text(
+                'Search for a Netflix show to watch',
+              )
             ),
-            Container(
-              margin: const EdgeInsets.all(10.0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(40, 0, 40, 0),
               child: TextField(
                   controller: _controller,
                   onSubmitted: (String title) async {
@@ -78,10 +82,14 @@ class _ShowSetupState extends State<ShowSetupPage> {
                   }),
             ),
             Expanded(
-              child: ListView.builder(
+              child: GridView.builder(
                 itemCount: shows.length,
-                itemExtent: 60.0,
-                itemBuilder: _listItemBuilder,
+                itemBuilder: _gridItemBuilder,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  childAspectRatio: 166 / 233,
+                  crossAxisCount: 3,
+                  crossAxisSpacing: 0,
+                ),
                 shrinkWrap: true,
               ),
             )
