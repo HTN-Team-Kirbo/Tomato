@@ -59,8 +59,9 @@ Widget SignUpDialog(BuildContext context) {
     ),
     FlatButton(
       child: Text("Create Account"),
-      onPressed: () {
-        //signUp(context, email, password);
+      onPressed: () async {
+        String signupResult = await signUp(email, password);
+        if (signupResult == "success!") {}
       },
     ),
   ]);
@@ -101,7 +102,6 @@ class AddUser extends StatelessWidget {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
 
     Future<void> addUser() {
-      //signUp(email, password);
       // Call the user's CollectionReference to add a new user
       return users
           .add({
