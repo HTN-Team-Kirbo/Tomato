@@ -20,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             FlatButton(
                 onPressed: () => showDialog(
@@ -69,48 +70,54 @@ Widget SignUpDialog(BuildContext context) {
   String username;
   String password;
   final node = FocusScope.of(context);
-  return SimpleDialog(children: [
-    Center(child: Text("Create an account")),
-    TextField(
-      decoration: InputDecoration(
-        hintText: "Email",
-        icon: Icon(Icons.email),
-      ),
-      onChanged: (value) {
-        email = value;
-      },
-      onEditingComplete: () => node.nextFocus(),
-    ),
-    TextField(
-      decoration: InputDecoration(
-        hintText: "Username",
-        icon: Icon(Icons.person),
-      ),
-      onChanged: (value) {
-        username = value;
-      },
-      onEditingComplete: () => node.nextFocus(),
-    ),
-    TextField(
-        obscureText: true,
-        decoration:
-            InputDecoration(hintText: "Password", icon: Icon(Icons.lock)),
-        onChanged: (value) {
-          password = value;
-        },
-        onSubmitted: (value) async {
-          String _signupResult = await signUp(email, username, value);
-          node.unfocus();
-          Navigator.pop(context, _signupResult);
-        }),
-    FlatButton(
-      child: Text("Create Account"),
-      onPressed: () async {
-        String _signupResult = await signUp(email, username, password);
-        Navigator.pop(context, _signupResult);
-      },
-    ),
-  ]);
+  return Dialog(
+      child: Container(
+          margin: EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Center(child: Text("Create an account")),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Email",
+                  icon: Icon(Icons.email),
+                ),
+                onChanged: (value) {
+                  email = value;
+                },
+                onEditingComplete: () => node.nextFocus(),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Username",
+                  icon: Icon(Icons.person),
+                ),
+                onChanged: (value) {
+                  username = value;
+                },
+                onEditingComplete: () => node.nextFocus(),
+              ),
+              TextField(
+                  obscureText: true,
+                  decoration: InputDecoration(
+                      hintText: "Password", icon: Icon(Icons.lock)),
+                  onChanged: (value) {
+                    password = value;
+                  },
+                  onSubmitted: (value) async {
+                    String _signupResult = await signUp(email, username, value);
+                    node.unfocus();
+                    Navigator.pop(context, _signupResult);
+                  }),
+              FlatButton(
+                child: Text("Submit"),
+                onPressed: () async {
+                  String _signupResult =
+                      await signUp(email, username, password);
+                  Navigator.pop(context, _signupResult);
+                },
+              ),
+            ],
+          )));
 }
 
 Widget LoginDialog(BuildContext context) {
@@ -118,44 +125,51 @@ Widget LoginDialog(BuildContext context) {
   String password;
 
   final node = FocusScope.of(context);
-  return SimpleDialog(children: [
-    Center(child: Text("Log in to your account")),
-    TextField(
-      decoration: InputDecoration(
-        hintText: "Email",
-        icon: Icon(Icons.email),
-      ),
-      onChanged: (value) {
-        email = value;
-      },
-      onEditingComplete: () => node.nextFocus(),
-    ),
-    TextField(
-        obscureText: true,
-        decoration: InputDecoration(
-          hintText: "Password",
-          icon: Icon(Icons.lock),
+  return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        margin: EdgeInsets.all(15),
+        child: Column(
+          children: [
+            Center(child: Text("Log in to your account")),
+            TextField(
+              decoration: InputDecoration(
+                hintText: "Email",
+                icon: Icon(Icons.email),
+              ),
+              onChanged: (value) {
+                email = value;
+              },
+              onEditingComplete: () => node.nextFocus(),
+            ),
+            TextField(
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: "Password",
+                  icon: Icon(Icons.lock),
+                ),
+                onChanged: (value) {
+                  password = value;
+                },
+                onSubmitted: (value) async {
+                  String _loginResult = await login(email, value);
+                  node.unfocus();
+                  Navigator.pop(context, _loginResult);
+                }),
+            FlatButton(
+              child: Text("Log In"),
+              onPressed: () async {
+                String _loginResult = await login(email, password);
+                Navigator.pop(context, _loginResult);
+              },
+            ),
+            FlatButton(
+              child: Text("Forgot Password? (Enter email first)"),
+              onPressed: () {
+                passwordReset(email);
+              },
+            ),
+          ],
         ),
-        onChanged: (value) {
-          password = value;
-        },
-        onSubmitted: (value) async {
-          String _loginResult = await login(email, value);
-          node.unfocus();
-          Navigator.pop(context, _loginResult);
-        }),
-    FlatButton(
-      child: Text("Log In"),
-      onPressed: () async {
-        String _loginResult = await login(email, password);
-        Navigator.pop(context, _loginResult);
-      },
-    ),
-    FlatButton(
-      child: Text("Forgot Password? (Enter email first)"),
-      onPressed: () {
-        passwordReset(email);
-      },
-    ),
-  ]);
+      ));
 }
