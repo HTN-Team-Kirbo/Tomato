@@ -15,84 +15,99 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     ThemeData localTheme = Theme.of(context);
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          Stack(children: <Widget>[
-            CustomPaint(
-              size: MediaQuery.of(context).size,
-              painter: CurvePainter(),
+      body: Stack(children: <Widget>[
+        Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment(0.6, 1),
+                end: Alignment(-0.6, -0.3),
+                colors: [Color(0xFF0D0D1D), Color(0xFF1D1D42)]),
+          ),
+        ),
+        CustomPaint(
+          size: MediaQuery.of(context).size,
+          painter: CurvePainter(),
+        ),
+        Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.fromLTRB(
+                  MediaQuery.of(context).size.width * 0.2,
+                  MediaQuery.of(context).size.width * 0.6,
+                  0,
+                  0),
+              child: Image.asset("assets/Saly-16.png"),
             ),
-            Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                      MediaQuery.of(context).size.width * 0.2,
-                      MediaQuery.of(context).size.width * 0.55,
-                      0,
-                      0),
-                  child: Image.asset("assets/Saly-16.png"),
-                ),
-                FlatButton(
-                    onPressed: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return SignUpDialog(context);
-                            }).then((exit) {
-                          if (exit == null) return;
-                          errorMessage = exit;
-                          if (exit == 'success!') {
-                            verifyEmail();
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ConfirmationPage()),
-                            );
-                          }
-                        }),
-                    child: Text("Sign Up")),
-                FlatButton(
-                    onPressed: () => showDialog(
-                            context: context,
-                            builder: (context) {
-                              return LoginDialog(context);
-                            }).then((exit) {
-                          if (exit == null) return;
-                          errorMessage = exit;
-                          if (exit == 'success!') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ProgressPage()),
-                            );
-                          }
-                        }),
-                    child: Text("Log In")),
-                Text(" $errorMessage"),
-              ],
+            FlatButton(
+                padding: EdgeInsets.all(15),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: Color(0xFF7A77F4),
+                onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SignUpDialog(context);
+                        }).then((exit) {
+                      if (exit == null) return;
+                      errorMessage = exit;
+                      if (exit == 'success!') {
+                        verifyEmail();
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ConfirmationPage()),
+                        );
+                      }
+                    }),
+                child: Text("Sign Up", textScaleFactor: 1.5)),
+            SizedBox(
+              height: 30,
             ),
-            Column(
-              //mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                    padding: EdgeInsets.fromLTRB(40, 100, 40, 0),
-                    child: Text(
-                      "Welcome to",
-                      textAlign: TextAlign.left,
-                      style: localTheme.textTheme.headline1,
-                    )),
-                Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Text(
-                      "Nijugo",
-                      textAlign: TextAlign.left,
-                      style: localTheme.textTheme.headline1
-                          .apply(fontSizeFactor: 1.5),
-                    )),
-              ],
-            )
-          ]),
-        ],
-      ),
+            FlatButton(
+                padding: EdgeInsets.all(15),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20)),
+                color: Color(0xFF7A77F4),
+                onPressed: () => showDialog(
+                        context: context,
+                        builder: (context) {
+                          return LoginDialog(context);
+                        }).then((exit) {
+                      if (exit == null) return;
+                      errorMessage = exit;
+                      if (exit == 'success!') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ProgressPage()),
+                        );
+                      }
+                    }),
+                child: Text("Log In", textScaleFactor: 1.5)),
+            Text(" $errorMessage"),
+          ],
+        ),
+        Column(
+          //mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+                padding: EdgeInsets.fromLTRB(40, 100, 40, 0),
+                child: Text(
+                  "Welcome to",
+                  textAlign: TextAlign.left,
+                  style: localTheme.textTheme.headline1,
+                )),
+            Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  "Nijugo",
+                  textAlign: TextAlign.left,
+                  style:
+                      localTheme.textTheme.headline1.apply(fontSizeFactor: 1.5),
+                )),
+          ],
+        ),
+      ]),
     );
   }
 }
