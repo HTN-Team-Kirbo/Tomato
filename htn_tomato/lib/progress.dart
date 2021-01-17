@@ -75,53 +75,62 @@ class _ProgressState extends State<ProgressPage> {
     ThemeData localTheme = Theme.of(context);
 
     return Scaffold(
-        body: Center(
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: <
-                    Widget>[
-          Padding(
-              padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
-              child: Text(
-                "Progress",
-                textAlign: TextAlign.center,
-                style: localTheme.textTheme.headline2,
-              )),
-          Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Visibility(
-                  visible: !cycling,
-                  child: ElevatedButton(
+        body: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment(-0.3, 1),
+                  end: Alignment(0.3, -1),
+                  colors: [Color(0xFF1D1D42), Color(0xFF7A77F4)])),
+          child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                Padding(
+                    padding: EdgeInsets.fromLTRB(40, 0, 40, 0),
                     child: Text(
-                      "Start Now",
+                      "Progress",
+                      textAlign: TextAlign.center,
+                      style: localTheme.textTheme.headline2,
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Visibility(
+                        visible: !cycling,
+                        child: ElevatedButton(
+                          child: Text(
+                            "Start Now",
+                            textAlign: TextAlign.left,
+                            style: localTheme.textTheme.bodyText2,
+                          ),
+                          onPressed: startCycles,
+                        ),
+                        replacement:
+                            Text(working ? "Work Time!" : "Break Time!"))),
+                Image.asset("assets/Saly-10.png"),
+                Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: AnimatedContainer(
+                      color: Colors.green,
+                      duration: minute * (working ? workMinutes : breakMinutes),
+                      height: 10,
+                      width: barLength),
+                ),
+                Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      "$cyclesLeft Cycles Left",
                       textAlign: TextAlign.left,
                       style: localTheme.textTheme.bodyText2,
-                    ),
-                    onPressed: startCycles,
-                  ),
-                  replacement: Text(working ? "Work Time!" : "Break Time!"))),
-          Padding(
-            padding: EdgeInsets.all(16.0),
-            child: AnimatedContainer(
-                color: Colors.green,
-                duration: minute * (working ? workMinutes : breakMinutes),
-                height: 10,
-                width: barLength),
-          ),
-          Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                "$cyclesLeft Cycles Left",
-                textAlign: TextAlign.left,
-                style: localTheme.textTheme.bodyText2,
-              )),
-          Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Text(
-                "Motivational Quote",
-                textAlign: TextAlign.left,
-                style: localTheme.textTheme.bodyText2,
-              )),
-        ])),
+                    )),
+                Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Text(
+                      "Motivational Quote",
+                      textAlign: TextAlign.left,
+                      style: localTheme.textTheme.bodyText2,
+                    )),
+              ])),
+        ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
@@ -129,7 +138,7 @@ class _ProgressState extends State<ProgressPage> {
               MaterialPageRoute(builder: (context) => ShowSetupPage()),
             );
           },
-          child: Icon(Icons.arrow_forward),
+          child: Icon(Icons.arrow_forward, color: Colors.white),
         ));
   }
 }
