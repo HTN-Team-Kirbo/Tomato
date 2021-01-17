@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'config.dart' as config;
 
-class APIInfo {
+class APIService {
   // API Key
   static const apiKey = config.apiKey;
 
